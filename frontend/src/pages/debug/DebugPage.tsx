@@ -23,10 +23,12 @@ function DebugPage() {
           nodeInfo.nodeToConnectTo || nodeInfo.baseUrl
         }/api/codex/v1/debug/info`,
         {
-          headers: {
-            Authorization:
-              (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
-          },
+          headers:
+            (nodeInfo.auth && {
+              Authorization:
+                (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
+            }) ||
+            {},
         }
       )
       .then((response) => {

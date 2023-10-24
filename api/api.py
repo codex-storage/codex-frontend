@@ -19,13 +19,17 @@ def upload():
         base_url = request.headers.get('Base-Url')
         auth_string = request.headers.get('Auth-String')
         # print(request.data)
+        if auth_string is not None:
+            auth = tuple(auth_string.split(':'))
+        else:
+            auth = None
         response = requests.post(
             f'{base_url}/api/codex/v1/upload',
             data=bytes,
             headers={
                 'Content-Type': 'application/octet-stream'
             },
-            auth=(auth_string.split(':')[0], auth_string.split(':')[1])
+            auth=auth
         )
         print(response.status_code)
         print(response.text)
