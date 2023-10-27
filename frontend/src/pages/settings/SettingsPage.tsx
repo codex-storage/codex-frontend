@@ -117,14 +117,6 @@ function SettingsPage() {
           />
           <button
             onClick={() => {
-              setNodeInfo({
-                baseUrl: nodeInfoInput.nodeBaseUrl,
-                nodeToConnectTo: nodeInfoInput.nodeToConnectTo,
-                id: nodeInfoInput.nodeId,
-                // ip: nodeInfoInput.nodeIp,
-                address: nodeInfoInput.nodeAddress,
-                auth: nodeInfoInput.auth,
-              });
               connectOnSave({
                 baseUrl: nodeInfoInput.nodeBaseUrl,
                 nodeToConnectTo: nodeInfoInput.nodeToConnectTo,
@@ -132,6 +124,15 @@ function SettingsPage() {
                 // ip: nodeInfoInput.nodeIp,
                 address: nodeInfoInput.nodeAddress,
                 auth: nodeInfoInput.auth,
+              }).then(() => {
+                setNodeInfo({
+                  baseUrl: nodeInfoInput.nodeBaseUrl,
+                  nodeToConnectTo: nodeInfoInput.nodeToConnectTo,
+                  id: nodeInfoInput.nodeId,
+                  // ip: nodeInfoInput.nodeIp,
+                  address: nodeInfoInput.nodeAddress,
+                  auth: nodeInfoInput.auth,
+                });
               });
             }}
           >

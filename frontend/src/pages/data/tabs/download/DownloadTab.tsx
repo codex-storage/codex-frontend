@@ -17,7 +17,7 @@ function DownloadTab() {
       }/api/codex/v1/download/${cid}`,
       {
         headers:
-          (nodeInfo.auth && {
+          (nodeInfo.auth !== null && {
             Authorization:
               (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
           }) ||

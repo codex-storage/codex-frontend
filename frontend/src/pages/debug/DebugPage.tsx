@@ -24,7 +24,7 @@ function DebugPage() {
         }/api/codex/v1/debug/info`,
         {
           headers:
-            (nodeInfo.auth && {
+            (nodeInfo.auth !== null && {
               Authorization:
                 (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
             }) ||

@@ -45,7 +45,7 @@ function UploadTab() {
           try {
             await axios
               .post(`${constants.testApiBaseUrl}/upload`, bytes, {
-                headers: (nodeInfo.auth && {
+                headers: (nodeInfo.auth !== null && {
                   "Base-Url": nodeInfo.nodeToConnectTo || nodeInfo.baseUrl,
                   "Content-Type": "application/octet-stream",
                   "Auth-String": nodeInfo.auth,
