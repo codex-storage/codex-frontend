@@ -13,10 +13,10 @@ A frontend for codex made with Flutter.
 - Settings for the connection
 - Dockerize frontend
 - Show status of locally running codex node
+- Upload to codex nodes
 
 ## Planned Features
 
-- Upload to codex nodes
 - Add support for marketplace endpoints
 - Show status of connection to codex peers
 
