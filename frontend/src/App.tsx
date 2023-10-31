@@ -26,12 +26,12 @@ export default function App() {
         <NavigationRail />
 
         <Routes>
-          <Route path="/" element={<SettingsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route
             path="/marketplace"
             element={PlacehoderPage({ name: "Marketplace" })}
           />
-          <Route path="/data" element={<DataPage />} />
+          <Route path="/" element={<DataPage />} />
           <Route path="/node" element={PlacehoderPage({ name: "Node" })} />
           <Route path="/debug" element={DebugPage()} />
         </Routes>

@@ -14,9 +14,9 @@ function NavigationRail() {
     <NavigationRailWrapper>
       <h1>Dexy</h1>
       <ul>
-        <NavigationItem name="Settings" icon={MdOutlineSettings} link="/" />
+        <NavigationItem name="Settings" icon={MdOutlineSettings} link="/settings" />
         <NavigationItem name="Marketplace" icon={MdStore} link="/marketplace" />
-        <NavigationItem name="Data" icon={MdDataUsage} link="/data" />
+        <NavigationItem name="Data" icon={MdDataUsage} link="/" />
         <NavigationItem name="Node" icon={MdDeviceHub} link="/node" />
         <NavigationItem name="Debug" icon={MdBugReport} link="/debug" />
       </ul>
