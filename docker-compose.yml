@@ -12,5 +12,3 @@ services:
     image: codex-frontend-client
     ports:
       - "3000:80"
-    environment:
-      - CODEX_URL=http://loiujhaiuhailuhost:8080

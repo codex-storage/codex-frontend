@@ -28,7 +28,7 @@ export const useDexyStore = create<DexyState>()(
       ftdCid: "",
       setFtdCid: (cid) => set({ ftdCid: cid }),
       nodeInfo: {
-        baseUrl: process.env.CODEX_URL || "http://localhost:8080",
+        baseUrl: process.env.REACT_APP_CODEX_URL || "http://localhost:8080",
         nodeToConnectTo: null,
         id: null,
         // ip: null,
