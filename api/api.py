@@ -10,6 +10,15 @@ CORS(app)
 def root():
     return jsonify({'message': 'Welcome to the API!'})
 
+@app.route('/debug')
+def debug():
+    base_url = request.headers.get('Base-Url')
+    response = requests.get(
+        f'{base_url}/api/codex/v1/debug/info'
+    )
+    print(response.status_code)
+    print(response.text)
+    return response.text
 
 @app.route('/upload', methods=['POST'])
 def upload():

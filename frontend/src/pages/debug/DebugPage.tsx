@@ -8,6 +8,7 @@ import {
 import NodeInfoItemComponent from "../../components/nodeInfoItem/NodeInfoItemComponent";
 import Header from "../../components/layout/partials/Header";
 import { useDexyStore } from "../../store";
+import constants from "../../util/Constants";
 
 function DebugPage() {
   const { nodeInfo } = useDexyStore();
@@ -15,20 +16,15 @@ function DebugPage() {
   const [statusInfo, setStatusInfo] = React.useState<
     DebugNodeInfoModel | undefined
   >();
-
   useEffect(() => {
     axios
       .get(
-        `${
-          nodeInfo.nodeToConnectTo || nodeInfo.baseUrl
-        }/api/codex/v1/debug/info`,
+        `${constants.testApiBaseUrl}/debug`,
         {
           headers:
-            (nodeInfo.auth !== null && {
-              Authorization:
-                (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
-            }) ||
-            {},
+            ({
+            "Base-Url": nodeInfo.baseUrl,
+            }),
         }
       )
       .then((response) => {
