@@ -2,7 +2,7 @@
 FROM node:18 as build-step
 WORKDIR /frontend
 ENV PATH /frontend/node_modules/.bin:$PATH
-COPY frontend/package.json frontend/yarn.lock frontend/tsconfig.json frontend/.env ./
+COPY frontend/package.json frontend/yarn.lock frontend/tsconfig.json ./
 COPY frontend/src ./src
 COPY frontend/public ./public
 RUN yarn install
@@ -11,4 +11,6 @@ RUN yarn build --production
 # Build step #2: build an nginx container
 FROM nginx:stable-alpine
 COPY --from=build-step /frontend/build /usr/share/nginx/html
-COPY deployment/nginx.default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+COPY deployment/nginx.conf /etc/nginx/conf.d/.conf
+CMD ["nginx", "-g", "daemon off;"]

@@ -19,15 +19,18 @@ function DebugPage() {
   useEffect(() => {
     axios
       .get(
-        `${constants.testApiBaseUrl}/debug`,
+        `/api/api/codex/v1/debug/info`,
         {
           headers:
-            ({
-            "Base-Url": nodeInfo.baseUrl,
-            }),
+            (nodeInfo.auth && {
+              Authorization:
+                (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
+            }) ||
+            {},
         }
       )
       .then((response) => {
+        console.log(response.data);
         setStatusInfo(
           Convert.toDebugNodeInfoModel(JSON.stringify(response.data))
         );
