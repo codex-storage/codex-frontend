@@ -8,7 +8,6 @@ import {
 import NodeInfoItemComponent from "../../components/nodeInfoItem/NodeInfoItemComponent";
 import Header from "../../components/layout/partials/Header";
 import { useDexyStore } from "../../store";
-import constants from "../../util/Constants";
 
 function DebugPage() {
   const { nodeInfo } = useDexyStore();
@@ -30,7 +29,6 @@ function DebugPage() {
         }
       )
       .then((response) => {
-        console.log(response.data);
         setStatusInfo(
           Convert.toDebugNodeInfoModel(JSON.stringify(response.data))
         );

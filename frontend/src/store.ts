@@ -28,7 +28,7 @@ export const useDexyStore = create<DexyState>()(
       ftdCid: "",
       setFtdCid: (cid) => set({ ftdCid: cid }),
       nodeInfo: {
-        baseUrl: "http://localhost",
+        baseUrl: "http://host.docker.internal:8080",
         nodeToConnectTo: null,
         id: null,
         // ip: null,
