@@ -19,7 +19,7 @@ function DebugPage() {
   useEffect(() => {
     axios
       .get(
-        `/api/api/codex/v1/debug/info`,
+        `/api/codex/v1/debug/info`,
         {
           headers:
             (nodeInfo.auth && {
