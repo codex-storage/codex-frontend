@@ -15,16 +15,13 @@ function DebugPage() {
   const [statusInfo, setStatusInfo] = React.useState<
     DebugNodeInfoModel | undefined
   >();
-
   useEffect(() => {
     axios
       .get(
-        `${
-          nodeInfo.nodeToConnectTo || nodeInfo.baseUrl
-        }/api/codex/v1/debug/info`,
+        `/api/codex/v1/debug/info`,
         {
           headers:
-            (nodeInfo.auth !== null && {
+            (nodeInfo.auth && {
               Authorization:
                 (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
             }) ||

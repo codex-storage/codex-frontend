@@ -1,10 +1,4 @@
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile.api
-    image: codex-frontend-api
-    network_mode: "host"
   client:
     build:
       context: .
@@ -12,3 +6,7 @@ services:
     image: codex-frontend-client
     ports:
       - "3000:80"
+    environment:
+      - codex_url=http://host.docker.internal:8080
+    volumes:
+        - ./deployment/nginx.template:/etc/nginx/templates/10-variables.conf.template:ro
