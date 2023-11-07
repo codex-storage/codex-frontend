@@ -44,7 +44,7 @@ function UploadTab() {
           var newCid = "";
           try {
             await axios
-              .post(`${constants.testApiBaseUrl}/upload`, bytes, {
+              .post(`/api/codex/v1/content`, bytes, {
                 headers: (nodeInfo.auth !== null && {
                   "Base-Url": nodeInfo.nodeToConnectTo || nodeInfo.baseUrl,
                   "Content-Type": "application/octet-stream",
