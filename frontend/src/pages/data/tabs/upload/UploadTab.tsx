@@ -55,8 +55,8 @@ function UploadTab() {
                 },
               })
               .then((response) => {
-                console.log(response.data);
-                newCid = response.data.cid;
+                console.log(newCid);
+                newCid = response.data;
               });
             console.log(newCid);
 
