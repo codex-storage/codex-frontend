@@ -6,32 +6,39 @@ import { useDexyStore } from "../../../../store";
 function CreateTab() {
   const { ftdCid, setFtdCid, nodeInfo } = useDexyStore();
 
-  const [filename, setFilename] = useState("file");
+  const [reward, setReward,] = useState("file");
+  const [duration, setDuration,] = useState("file");
+  const [proofProbability, setProofProbability,] = useState("file");
+  const [collateral, setCollateral,] = useState("file");
+  
 
-  function download(cid: string) {
-    // console.log(filename);
-    // console.log(cid);
-    // fetch(
-    //   `/api/codex/v1/download/${cid}`,
-    //   {
-    //     headers:
-    //       (nodeInfo.auth !== null && {
-    //         Authorization:
-    //           (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
-    //       }) ||
-    //       {},
-    //   }
-    // )
-    //   .then((response) => response.blob())
-    //   .then((blob) => {
-    //     const url = window.URL.createObjectURL(new Blob([blob]));
-    //     const link = document.createElement("a");
-    //     link.href = url;
-    //     link.setAttribute("download", filename);
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     link.parentNode?.removeChild(link);
-    //   });
+  function upload(cid: string) {
+    fetch(
+      `/api/codex/v1/storage/request/${cid}`,
+      {
+        method: 'POST',
+        headers:
+          (nodeInfo.auth !== null && {
+            Authorization:
+              (nodeInfo.auth && "Basic " + btoa(nodeInfo.auth)) || "",
+          }) ||
+          {},
+        body: JSON.stringify({
+          reward: reward,
+          duration: duration,
+          proofProbability: proofProbability,
+          collateral: collateral
+        })
+      }
+    )
+    // create a popup in the browser to show if the upload was successful
+    .then((response) => {
+        if (response.status === 200) {
+          alert("Upload successful!");
+        } else {
+          alert("Upload failed!");
+        }
+      })
   }
 
   return (
@@ -47,10 +54,28 @@ function CreateTab() {
       <div id="divider"></div>
       <input
         type="text"
-        placeholder="Contract Parameters"
-        onChange={(e) => setFilename(e.target.value)}
+        placeholder="Reward"
+        onChange={(e) => setReward(e.target.value)}
       />
-      <button onClick={() => download(ftdCid)}>Download</button>
+      <div id="divider"></div>
+      <input
+        type="text"
+        placeholder="Duration"
+        onChange={(e) => setDuration(e.target.value)}
+      />
+      <div id="divider"></div>
+      <input
+        type="text"
+        placeholder="ProofProbability"
+        onChange={(e) => setProofProbability(e.target.value)}
+      />
+      <div id="divider"></div>
+      <input
+        type="text"
+        placeholder="collateral"
+        onChange={(e) => setCollateral(e.target.value)}
+      />
+      <button onClick={() => upload(ftdCid)}>Download</button>
     </CreateTabWrapper>
   );
 }
