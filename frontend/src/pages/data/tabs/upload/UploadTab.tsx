@@ -55,10 +55,8 @@ function UploadTab() {
                 },
               })
               .then((response) => {
-                console.log(response.data);
-                newCid = response.data.cid;
+                newCid = response.data;
               });
-            console.log(newCid);
 
             filesCopy.current = filesCopy.current.filter(
               (file) => file.cid !== cid
