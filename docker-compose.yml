@@ -7,6 +7,6 @@ services:
     ports:
       - "3000:80"
     environment:
-      - codex_url=http://host.docker.internal:8080
+      - codex_url=http://kubernetes.docker.internal:31942
     volumes:
         - ./deployment/nginx.template:/etc/nginx/templates/10-variables.conf.template:ro

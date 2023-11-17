@@ -3,16 +3,18 @@ import TabBarView from "../../components/layout/tabBarView/TabBarView";
 import styled from "styled-components";
 
 import { MdFileUpload, MdFileDownload } from "react-icons/md";
-import UploadTab from "./tabs/available/AvailableTab";
+import UploadTab from "./tabs/status/status";
 import DownloadTab from "./tabs/create/CreateTab";
+import AvailableTab from "./tabs/status/status";
+import CreateTab from "./tabs/create/CreateTab";
 
 function MarketplacePage() {
   return (
     <div>
-      <TabBarView tabIcons={[MdFileUpload, MdFileDownload]}>
-        <UploadTab />
+      <TabBarView tabIcons={[MdFileUpload, MdFileDownload, MdFileUpload, MdFileDownload]}>
+        <AvailableTab />
         <TabBarViewPage>
-          <DownloadTab />
+          <CreateTab />
         </TabBarViewPage>
       </TabBarView>
     </div>

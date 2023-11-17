@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import UploadedItemModel from "./data/models/UploadedItemModel";
-
+import RequestForStorageContractModel from "./data/models/RequestForStorageContractModel";
 interface NodeInfo {
   baseUrl: string;
   nodeToConnectTo: string | null;
@@ -14,6 +14,8 @@ interface NodeInfo {
 interface DexyState {
   uploads: UploadedItemModel[];
   setUploads: (uploads: UploadedItemModel[]) => void;
+  storageRequests: RequestForStorageContractModel[];
+  setStorageRequests: (storageRequests: RequestForStorageContractModel[]) => void;
   ftdCid: string;
   setFtdCid: (cid: string) => void;
   nodeInfo: NodeInfo;
@@ -25,6 +27,8 @@ export const useDexyStore = create<DexyState>()(
     (set, get) => ({
       uploads: [],
       setUploads: (uploads) => set({ uploads }),
+      storageRequests: [],
+      setStorageRequests: (storageRequests) => set({ storageRequests }),
       ftdCid: "",
       setFtdCid: (cid) => set({ ftdCid: cid }),
       nodeInfo: {
