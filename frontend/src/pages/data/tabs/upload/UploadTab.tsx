@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import UploadedItemModel, {
@@ -12,12 +12,31 @@ import constants from "../../../../util/Constants";
 
 function UploadTab() {
   const { uploads, setUploads, nodeInfo } = useDexyStore();
-  var filesCopy = useRef<UploadedItemModel[]>(uploads);
+  var files = useRef<UploadedItemModel[]>(uploads);
+  const [isLoading, setIsLoading] = useState(false);
 
+  function getDatas() {
+    fetch(`/api/codex/v1/data`, {
+      headers: {
+        Authorization: nodeInfo.auth ? "Basic " + btoa(nodeInfo.auth) : "",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUploads(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setIsLoading(false);
+      });
+  }
   useEffect(() => {
-    console.log(uploads);
-    // setUploads([]);
-  }, [uploads]);
+    setUploads([]);
+    setIsLoading(true);
+    // Fetch purchase IDs
+    getDatas();
+  }, []);
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -26,17 +45,6 @@ function UploadTab() {
         new Promise(async (resolve, reject) => {
           let cid: string = (Math.random() * 1000000).toString();
           console.log(cid + acceptedFiles[i].name);
-          filesCopy.current.push({
-            cid: cid,
-            fileName: acceptedFiles[i].name,
-            fileSize: acceptedFiles[i].size,
-            lastModified: new Date(
-              acceptedFiles[i].lastModified
-            ).toLocaleString(),
-            type: acceptedFiles[i].type,
-            status: UploadedItemStatus.UPLOADING,
-          });
-          setUploads(filesCopy.current);
 
           var bytes = await acceptedFiles[i].arrayBuffer();
           bytes = new Uint8Array(bytes);
@@ -57,48 +65,16 @@ function UploadTab() {
               .then((response) => {
                 newCid = response.data;
               });
-
-            filesCopy.current = filesCopy.current.filter(
-              (file) => file.cid !== cid
-            );
-            filesCopy.current.push({
-              cid: newCid,
-              fileName: acceptedFiles[i].name,
-              fileSize: acceptedFiles[i].size,
-              lastModified: new Date(
-                acceptedFiles[i].lastModified
-              ).toLocaleString(),
-              type: acceptedFiles[i].type,
-              status: UploadedItemStatus.UPLOADED,
-            });
-            setUploads(filesCopy.current);
-            console.log("filesCopy");
-            console.log(filesCopy.current);
-          } catch (error) {
-            console.log(error);
-            filesCopy.current = filesCopy.current.filter(
-              (file) => file.cid !== cid
-            );
-            filesCopy.current.push({
-              cid: "Failed",
-              fileName: acceptedFiles[i].name,
-              fileSize: acceptedFiles[i].size,
-              lastModified: new Date(
-                acceptedFiles[i].lastModified
-              ).toLocaleString(),
-              type: acceptedFiles[i].type,
-              status: UploadedItemStatus.FAILED,
-            });
             console.log("filesCopy failed");
-            console.log(filesCopy.current);
-            setUploads(filesCopy.current);
+          } catch (error) {
+            console.error("Error uploading file: ", error);
           }
           console.log(cid + acceptedFiles[i].name);
           resolve("done");
         });
       }
     },
-    [setUploads, filesCopy, nodeInfo]
+    [setUploads, nodeInfo]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });

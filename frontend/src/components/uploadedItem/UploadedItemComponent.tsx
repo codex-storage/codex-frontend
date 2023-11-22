@@ -13,48 +13,13 @@ function UploadedItemComponent(props: { item: UploadedItemModel }) {
     <UploadedItemComponentWrapper>
       <div>
         <p>
-          <span>Name: </span>
-          {props.item.fileName}
-        </p>
-        <p>
-          <span>File size (bytes): </span>
-          {props.item.fileSize}
-        </p>
-      </div>
-      <div>
-        <p>
-          <span>Last Modified: </span>
-          {props.item.lastModified}
-        </p>
-        <p>
-          <span>Type: </span>
-          {props.item.type}
-        </p>
-      </div>
-      <div>
-        <p id="cid">
           <span>CID: </span>
-          {(props.item.status === UploadedItemStatus.UPLOADING &&
-            "Uploading...") ||
-            (props.item.status === UploadedItemStatus.FAILED && (
-              <span style={{ color: constants.errorColor }}>Upload failed</span>
-            )) || (
-              <span
-                style={{
-                  color: constants.successColor,
-                  wordBreak: "break-all",
-                }}
-              >
-                {props.item.cid}
-              </span>
-            )}
+          {props.item.cid}
         </p>
-        <p>{props.item.status}</p>
-        {(props.item.status === UploadedItemStatus.UPLOADING && (
-          <CircularProgress size={24} />
-        )) ||
-          (props.item.status === UploadedItemStatus.UPLOADED && <MdCheck />) ||
-          (props.item.status === UploadedItemStatus.FAILED && <MdError />)}
+        <p>
+          <span>Size: </span>
+          {props.item.manifest.blockSize}
+        </p>
       </div>
     </UploadedItemComponentWrapper>
   );

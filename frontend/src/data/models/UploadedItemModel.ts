@@ -6,11 +6,14 @@ enum UploadedItemStatus {
 
 type UploadedItemModel = {
   cid: string;
-  fileName: string;
-  fileSize: number;
-  lastModified: string;
-  type: string;
-  status: UploadedItemStatus;
+  manifest: Manifest;
+};
+
+type Manifest = {
+  treeCid: string;
+  datasetSize: number;
+  blockSize: number;
+  protected: boolean;
 };
 
 export default UploadedItemModel;
