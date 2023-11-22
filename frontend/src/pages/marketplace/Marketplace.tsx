@@ -1,22 +1,30 @@
 import React from "react";
-import TabBarView from "../../components/layout/tabBarView/TabBarView";
+import TabBarViewText from "../../components/layout/tabBarView/TabBarViewText";
 import styled from "styled-components";
 
 import { MdFileUpload, MdFileDownload } from "react-icons/md";
-import UploadTab from "./tabs/status/StatusTab";
-import DownloadTab from "./tabs/create/CreateTab";
-import StatusTab from "./tabs/status/StatusTab";
-import CreateTab from "./tabs/create/CreateTab";
+import UploadTab from "./tabs/Rosc/StatusTab";
+import DownloadTab from "./tabs/Rosc/CreateTab";
+import StatusTab from "./tabs/Rosc/StatusTab";
+import CreateTab from "./tabs/Rosc/CreateTab";
+import OfferStorage from "./tabs/Availability/OfferStorage";
+import AvailabilitiesTab from "./tabs/Availability/Availability";
 
 function MarketplacePage() {
   return (
     <div>
-      <TabBarView tabIcons={[MdFileUpload, MdFileDownload, MdFileUpload, MdFileDownload]}>
+      <TabBarViewText tabText={["ROSC Status", "ROSC create", "Availabilities", "Create Availability"]}>
         <StatusTab />
         <TabBarViewPage>
           <CreateTab />
         </TabBarViewPage>
-      </TabBarView>
+        <TabBarViewPage>
+          <AvailabilitiesTab />
+        </TabBarViewPage>
+        <TabBarViewPage>
+          <OfferStorage />
+        </TabBarViewPage>
+      </TabBarViewText>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import UploadedItemModel, {
   UploadedItemStatus,
 } from "../../../../data/models/UploadedItemModel";
-import UploadedItemComponent from "../../../../components/uploadedItem/UploadedItemComponent";
+import UploadedItemComponent from "../../../../components/UploadedItem/UploadedItemComponent";
 import axios from "axios";
 
 import { useDexyStore } from "../../../../store";
@@ -64,6 +64,7 @@ function UploadTab() {
               })
               .then((response) => {
                 newCid = response.data;
+                getDatas();
               });
             console.log("filesCopy failed");
           } catch (error) {

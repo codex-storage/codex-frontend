@@ -1,3 +1,4 @@
+# please use localhost:8080 for codex_url for local development (without marketplace)
 services:
   client:
     build:
@@ -7,6 +8,6 @@ services:
     ports:
       - "3000:80"
     environment:
-      - codex_url=http://kubernetes.docker.internal:31942
+      - codex_url=http://kubernetes.docker.internal:31264
     volumes:
         - ./deployment/nginx.template:/etc/nginx/templates/10-variables.conf.template:ro
