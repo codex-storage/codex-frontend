@@ -26,6 +26,11 @@ A frontend for codex made with Flutter.
 ```console
 git clone https://github.com/Kayvon-Martinez/codex-frontend
 cd codex-frontend
+```
+
+Grab your codex api link and put it in the dockercompose file in the root of the directory in the value of codex_url
+
+```console
 docker compose up
 ```
 
