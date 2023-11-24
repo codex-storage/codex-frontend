@@ -14,10 +14,11 @@ A frontend for codex made with Flutter.
 - Dockerize frontend
 - Show status of locally running codex node
 - Upload to codex nodes
+- Download from codex nodes
+- Now supports marketplace endpoints!
 
 ## Planned Features
 
-- Add support for marketplace endpoints
 - Show status of connection to codex peers
 
 ## How To Run It
@@ -25,8 +26,6 @@ A frontend for codex made with Flutter.
 ```console
 git clone https://github.com/Kayvon-Martinez/codex-frontend
 cd codex-frontend
-docker build -f Dockerfile.api -t codex-frontend-api .
-docker build -f Dockerfile.client -t codex-frontend-client .
 docker compose up
 ```
 
