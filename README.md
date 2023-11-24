@@ -4,23 +4,19 @@ A frontend for codex made with Flutter.
 
 ## Features
 
-- Upload file
-- View file Uploaded
-- Download file
-- Download with correct file name and extension
-- Persist the state (save recent upload list)
 - Upload multiple files at once
-- Settings for the connection
 - Dockerize frontend
 - Show status of locally running codex node
 - Upload to codex nodes
+- View file Uploaded
 - Download from codex nodes
 - Now supports marketplace endpoints!
 
 ## Planned Features
 
 - Show status of connection to codex peers
-
+- Settings for the connection
+  
 ## How To Run It
 
 ```console
