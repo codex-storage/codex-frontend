@@ -3,11 +3,9 @@ services:
   client:
     build:
       context: .
-      dockerfile: Dockerfile.client
+      dockerfile: docker/Dockerfile
     image: codex-frontend-client
     ports:
       - "3000:80"
     environment:
-      - codex_url=http://kubernetes.docker.internal:31264
-    volumes:
-        - ./deployment/nginx.template:/etc/nginx/templates/10-variables.conf.template:ro
+      - codex_url=${codex_url:-http://kubernetes.docker.internal:31264}
