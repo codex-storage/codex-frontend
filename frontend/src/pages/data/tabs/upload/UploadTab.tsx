@@ -4,7 +4,7 @@ import styled from "styled-components";
 import UploadedItemModel, {
   UploadedItemStatus,
 } from "../../../../data/models/UploadedItemModel";
-import UploadedItemComponent from "../../../../components/UploadedItem/UploadedItemComponent";
+import UploadedItemComponent from "../../../../components/uploadedItem/UploadedItemComponent";
 import axios from "axios";
 
 import { useDexyStore } from "../../../../store";

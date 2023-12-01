@@ -2,6 +2,7 @@
 
 A frontend for codex made with Flutter.
 
+
 ## Features
 
 - Upload multiple files at once
@@ -12,28 +13,36 @@ A frontend for codex made with Flutter.
 - Download from codex nodes
 - Now supports marketplace endpoints!
 
+
 ## Planned Features
 
 - Show status of connection to codex peers
 - Settings for the connection
-  
-## How To Run It
 
-```console
-git clone https://github.com/Kayvon-Martinez/codex-frontend
-cd codex-frontend
-```
 
-Grab your codex api link and put it in the dockercompose file in the root of the directory in the value of codex_url
+## How to run it
 
-```console
-docker compose up
-```
+ 1. Clone repository
+    ```shell
+    git clone https://github.com/codex-storage/codex-frontend
+    cd codex-frontend
+    ```
 
-Go to [localhost:3000](http://localhost:3000)
+ 2. Grab your codex api link and define a variable for docker compose file
+    ```shell
+    export codex_url="http://localhost:8080"
+    ```
+
+ 3. Run codex frontend
+    ```shell
+    docker compose up
+    ```
+
+ 4. Go to [localhost:3000](http://localhost:3000)
+
 
 ## Screenshots
 
-![Data page: Upload](https://github.com/Kayvon-Martinez/codex-frontend/blob/master/screenshots/upload-page.png)
-![Data page: Upload (with uploads)](https://github.com/Kayvon-Martinez/codex-frontend/blob/master/screenshots/upload-page-uploads.png)
-![Data page: Download](https://github.com/Kayvon-Martinez/codex-frontend/blob/master/screenshots/download-page.png)
+![Data page: Upload](screenshots/upload-page.png)
+![Data page: Upload (with uploads)](screenshots/upload-page-uploads.png)
+![Data page: Download](screenshots/download-page.png)
