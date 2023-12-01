@@ -27,7 +27,6 @@ ARG APP_USER
 ARG APP_HOME
 ARG NGINX_TEMPLATE
 
-COPY --from=builder ${APP_HOME}/build /usr/share/nginx/html
-COPY ${NGINX_TEMPLATE} /etc/nginx/nginx.template
-
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+RUN mkdir /etc/nginx/templates
+COPY ${NGINX_TEMPLATE} /etc/nginx/templates/default.conf.template
+COPY --chown=${APP_USER}:${APP_USER} --from=builder ${APP_HOME}/build /usr/share/nginx/html
