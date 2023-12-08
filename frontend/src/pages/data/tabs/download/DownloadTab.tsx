@@ -12,7 +12,7 @@ function DownloadTab() {
     console.log(filename);
     console.log(cid);
     fetch(
-      `/api/codex/v1/data/${cid}`,
+      `/api/codex/v1/data/${cid}/network`,
       {
         headers:
           (nodeInfo.auth !== null && {
