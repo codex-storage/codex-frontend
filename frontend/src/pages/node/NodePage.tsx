@@ -3,22 +3,22 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   Convert,
-  DebugNodeInfoModel,
-} from "../../data/models/DebugNodeInfoModel";
-import NodeInfoItemComponent from "../../components/debugInfoItem/debugInfoItem";
+  NodeInfoModel,
+} from "../../data/models/NodeInfoModel";
+import NodeInfoItemComponent from "../../components/nodeInfoItem/NodeInfoItemComponent";
 import Header from "../../components/layout/partials/Header";
 import { useDexyStore } from "../../store";
 
-function DebugPage() {
+function NodeInfoPage() {
   const { nodeInfo } = useDexyStore();
 
   const [statusInfo, setStatusInfo] = React.useState<
-    DebugNodeInfoModel | undefined
+    NodeInfoModel | undefined
   >();
   useEffect(() => {
     axios
       .get(
-        `/api/codex/v1/debug/info`,
+        `/api/codex/v1/space`,
         {
           headers:
             (nodeInfo.auth && {
@@ -30,23 +30,23 @@ function DebugPage() {
       )
       .then((response) => {
         setStatusInfo(
-          Convert.toDebugNodeInfoModel(JSON.stringify(response.data))
+          Convert.toNodeInfoModel(JSON.stringify(response.data))
         );
       });
   }, [nodeInfo]);
 
   console.log(statusInfo);
   return (
-    <DebugPageWrapper>
+    <NodeInfoPageWrapper>
       <Header title="Node Info" />
       <main>{statusInfo && <NodeInfoItemComponent data={statusInfo!!} />}</main>
-    </DebugPageWrapper>
+    </NodeInfoPageWrapper>
   );
 }
 
-export default DebugPage;
+export default NodeInfoPage;
 
-const DebugPageWrapper = styled.div`
+const NodeInfoPageWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;

@@ -10,6 +10,7 @@ function OfferStorage() {
   const [duration, setDuration,] = useState("file");
   const [minPrice, setMinPrice,] = useState("file");
   const [maxCollateral, setMaxCollateral,] = useState("file");
+  const [expiry, setExpiry,] = useState("file");
   
 
   function upload(cid: string) {
@@ -27,7 +28,8 @@ function OfferStorage() {
           size: size,
           duration: duration,
           minPrice: minPrice,
-          maxCollateral: maxCollateral
+          maxCollateral: maxCollateral,
+          expiry: expiry
         })
       }
     )
@@ -74,6 +76,12 @@ function OfferStorage() {
         type="text"
         placeholder="MaxCollateral"
         onChange={(e) => setMaxCollateral(e.target.value)}
+      />
+      <div id="divider"></div>
+      <input
+        type="text"
+        placeholder="Expiry"
+        onChange={(e) => setExpiry(e.target.value)}
       />
       <button onClick={() => upload(ftdCid)}>Download</button>
     </OfferStorageWrapper>

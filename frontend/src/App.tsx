@@ -5,6 +5,7 @@ import DataPage from "./pages/data/DataPage";
 import DebugPage from "./pages/debug/DebugPage";
 import SettingsPage from "./pages/settings/SettingsPage";
 import MarketplacePage from "./pages/marketplace/Marketplace";
+import NodeInfoPage from "./pages/node/NodePage";
 
 function PlacehoderPage(props: { name: string }) {
   return (
@@ -29,7 +30,7 @@ export default function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/marketplace" element={<MarketplacePage/>}/>
           <Route path="/" element={<DataPage />} />
-          <Route path="/node" element={PlacehoderPage({ name: "Node" })} />
+          <Route path="/node" element={<NodeInfoPage/>} />
           <Route path="/debug" element={DebugPage()} />
         </Routes>
 

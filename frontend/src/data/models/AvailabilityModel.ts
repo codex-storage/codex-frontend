@@ -4,6 +4,7 @@ type AvailabilityModel = {
     duration: string;
     minPrice: string;
     maxCollateral: string;
+    expiry: string;
 };
 
 export default AvailabilityModel;

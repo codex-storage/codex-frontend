@@ -1,104 +1,38 @@
 import React from "react";
 import styled from "styled-components";
-import { DebugNodeInfoModel } from "../../data/models/DebugNodeInfoModel";
+import { NodeInfoModel } from "../../data/models/NodeInfoModel";
 import DropDownList from "../layout/dropDownList/DropDownList";
 
 function NodeInfoItemComponent(props: {
-  data: DebugNodeInfoModel | undefined;
+  data: NodeInfoModel | undefined;
 }) {
   return (
     (props.data && (
       <NodeInfoItemComponentWrapper>
         <div id="info-row">
           <p>
-            <span>Adresses: </span>
-            {props.data.addrs.join(", ")}
-          </p>
-          <p>
-            <span>Codex Version: </span>
-            {`${props.data.codex.version} (${props.data.codex.revision})`}
+            <span>TotalBlocks: </span>
+            {props.data.totalBlocks}
           </p>
         </div>
         <div id="info-row">
           <p>
-            <span>ID: </span>
-            {props.data.id}
-          </p>
-          <p>
-            <span>Repo: </span>
-            {props.data.repo}
+            <span>QuotaMaxBytes: </span>
+            {props.data.quotaMaxBytes}
           </p>
         </div>
         <div id="info-row">
           <p>
-            <span>SPR: </span>
-            {props.data.spr}
+            <span>QuotaUsedBytes: </span>
+            {props.data.quotaUsedBytes}
           </p>
         </div>
-        <div>
-          <h3>Local Node</h3>
-          <div id="info-row">
-            <p>
-              <span>Address: </span>
-              {props.data.table.localNode.address}
-            </p>
-            <p>
-              <span>Node ID: </span>
-              {props.data.table.localNode.nodeId}
-            </p>
-          </div>
-          <div id="info-row">
-            <p>
-              <span>Peer ID: </span>
-              {props.data.table.localNode.peerId}
-            </p>
-            <p>
-              <span>Seen: </span>
-              {`${props.data.table.localNode.seen
-                .toString()[0]
-                .toUpperCase()}${props.data.table.localNode.seen
-                .toString()
-                .slice(1)}`}
-            </p>
-          </div>
+        <div id="info-row">
+          <p>
+            <span>QuotaReservedBytes: </span>
+            {props.data.quotaReservedBytes}
+          </p>
         </div>
-        <DropDownList title="Nodes">
-          {props.data.table.nodes.map((node, index) => (
-            <div key={index}>
-              <h3>Node {index + 1}</h3>
-              <div id="info-row">
-                <p>
-                  <span>Address: </span>
-                  {node.address}
-                </p>
-                <p>
-                  <span>Node ID: </span>
-                  {node.nodeId}
-                </p>
-              </div>
-              <div id="info-row">
-                <p>
-                  <span>Peer ID: </span>
-                  {node.peerId}
-                </p>
-                <p>
-                  <span>Seen: </span>
-                  {`${node.seen.toString()[0].toUpperCase()}${node.seen
-                    .toString()
-                    .slice(1)}`}
-                </p>
-              </div>
-            </div>
-          ))}
-        </DropDownList>
-        <DropDownList title="Record">
-          <div id="info-row">
-            <p>
-              <span>Record: </span>
-              {props.data.table.localNode.record}
-            </p>
-          </div>
-        </DropDownList>
       </NodeInfoItemComponentWrapper>
     )) || <></>
   );
