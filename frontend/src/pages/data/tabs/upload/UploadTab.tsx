@@ -32,10 +32,37 @@ function UploadTab() {
       });
   }
   useEffect(() => {
-    setUploads([]);
+    const fetchData = () => {
+      fetch(`/api/codex/v1/data`, {
+        headers: {
+          Authorization: nodeInfo.auth ? "Basic " + btoa(nodeInfo.auth) : "",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setUploads(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching data: ", error);
+          setIsLoading(false);
+        });
+    };
+
+    const fetchDataInterval = setInterval(() => {
+      // Fetch data at regular intervals (every 5 seconds)
+      setIsLoading(true);
+      fetchData();
+    }, 5000); // 5 seconds in milliseconds
+
+    // Fetch data immediately when the component mounts
     setIsLoading(true);
-    // Fetch purchase IDs
-    getDatas();
+    fetchData();
+
+    return () => {
+      // Clean up interval on component unmount
+      clearInterval(fetchDataInterval);
+    };
   }, []);
 
   const onDrop = useCallback(
