@@ -10,7 +10,8 @@ function CreateTab() {
   const [duration, setDuration,] = useState("file");
   const [proofProbability, setProofProbability,] = useState("file");
   const [collateral, setCollateral,] = useState("file");
-  
+  const [error, setError] = useState("");
+
 
   function upload(cid: string) {
     fetch(
@@ -31,52 +32,69 @@ function CreateTab() {
         })
       }
     )
-    // create a popup in the browser to show if the upload was successful
-    .then((response) => {
+      // create a popup in the browser to show if the upload was successful
+      .then((response) => {
         if (response.status === 200) {
-          alert("Upload successful!");
+          alert("Successfully created storage offer!");
+          setError("");
         } else {
-          alert("Upload failed!");
+          response.text().then((text) => {
+            setError(text);
+          }).catch((error) => {
+            console.error("Error reading response body:", error);
+            setError("Failed to read response body");
+          });
         }
       })
+      .catch((error) => {
+        console.error("Error creating storage offer:", error);
+        setError("Failed to create storage offer");
+      });
   }
 
   return (
-    <CreateTabWrapper>
-      <input
-        type="text"
-        placeholder="CID"
-        onChange={(e) => {
-          setFtdCid(e.target.value);
-        }}
-        value={ftdCid}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="Reward"
-        onChange={(e) => setReward(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="Duration"
-        onChange={(e) => setDuration(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="ProofProbability"
-        onChange={(e) => setProofProbability(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="collateral"
-        onChange={(e) => setCollateral(e.target.value)}
-      />
-      <button onClick={() => upload(ftdCid)}>Download</button>
-    </CreateTabWrapper>
+    <>
+      <CreateTabWrapper>
+        <input
+          type="text"
+          placeholder="CID"
+          onChange={(e) => {
+            setFtdCid(e.target.value);
+          }}
+          value={ftdCid}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Reward"
+          onChange={(e) => setReward(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Duration"
+          onChange={(e) => setDuration(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="ProofProbability"
+          onChange={(e) => setProofProbability(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="collateral"
+          onChange={(e) => setCollateral(e.target.value)}
+        />
+        <button onClick={() => upload(ftdCid)}>Download</button>
+      </CreateTabWrapper>
+      {error && (
+        <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
+    </>
   );
 }
 

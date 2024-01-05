@@ -7,6 +7,7 @@ function DownloadTab() {
   const { ftdCid, setFtdCid, nodeInfo } = useDexyStore();
 
   const [filename, setFilename] = useState("file");
+  const [error, setError] = useState("");
 
   function download(cid: string) {
     console.log(filename);
@@ -22,36 +23,60 @@ function DownloadTab() {
           {},
       }
     )
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode?.removeChild(link);
-      });
+      .then((response) =>
+      {
+        if (response.status === 200) {
+          response.blob()
+          .then((blob) => {
+          const url = window.URL.createObjectURL(new Blob([blob]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", filename);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode?.removeChild(link);
+        })
+      }
+      else {
+        response.text().then((text) => {
+          setError(text);
+        }).catch((error) => {
+          console.error("Error reading response body:", error);
+          setError("Failed to read response body");
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Error downloading file:", error);
+      setError("Failed to download file");
+    });
   }
 
   return (
-    <DownloadTabWrapper>
-      <input
-        type="text"
-        placeholder="CID"
-        onChange={(e) => {
-          setFtdCid(e.target.value);
-        }}
-        value={ftdCid}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="Filename"
-        onChange={(e) => setFilename(e.target.value)}
-      />
-      <button onClick={() => download(ftdCid)}>Download</button>
-    </DownloadTabWrapper>
+    <>
+      <DownloadTabWrapper>
+        <input
+          type="text"
+          placeholder="CID"
+          onChange={(e) => {
+            setFtdCid(e.target.value);
+          }}
+          value={ftdCid}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Filename"
+          onChange={(e) => setFilename(e.target.value)}
+        />
+        <button onClick={() => download(ftdCid)}>Download</button>
+      </DownloadTabWrapper>
+      {error && (
+        <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
+    </>
   );
 }
 

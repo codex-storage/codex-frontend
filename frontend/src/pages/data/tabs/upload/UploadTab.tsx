@@ -14,6 +14,7 @@ function UploadTab() {
   const { uploads, setUploads, nodeInfo } = useDexyStore();
   var files = useRef<UploadedItemModel[]>(uploads);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   function getDatas() {
     fetch(`/api/codex/v1/data`, {
@@ -90,12 +91,17 @@ function UploadTab() {
                 },
               })
               .then((response) => {
-                newCid = response.data;
-                getDatas();
+                if (response.status === 200) {
+                  newCid = response.data;
+                  getDatas();
+                } else {
+                  setError("Upload failed");
+                }
               });
             console.log("filesCopy failed");
           } catch (error) {
             console.error("Error uploading file: ", error);
+            setError("Upload failed");
           }
           console.log(cid + acceptedFiles[i].name);
           resolve("done");
@@ -108,32 +114,39 @@ function UploadTab() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <UploadTabWrapper>
-      <div
-        id="dropzone"
-        {...getRootProps()}
-        style={{
-          minHeight: uploads.length > 0 ? "33%" : "100%",
-        }}
-      >
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
-        )}
-      </div>
-      <div
-        id="uploaded-items-wrap"
-        style={{
-          maxHeight: uploads.length > 0 ? "60vh" : "0%",
-        }}
-      >
-        {uploads.map((file) => (
-          <UploadedItemComponent item={file} key={file.cid} />
-        ))}
-      </div>
-    </UploadTabWrapper>
+    <>
+      <UploadTabWrapper>
+        <div
+          id="dropzone"
+          {...getRootProps()}
+          style={{
+            minHeight: uploads.length > 0 ? "33%" : "100%",
+          }}
+        >
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          )}
+        </div>
+        <div
+          id="uploaded-items-wrap"
+          style={{
+            maxHeight: uploads.length > 0 ? "60vh" : "0%",
+          }}
+        >
+          {uploads.map((file) => (
+            <UploadedItemComponent item={file} key={file.cid} />
+          ))}
+        </div>
+      </UploadTabWrapper>
+      {error && (
+        <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
+    </>
   );
 }
 

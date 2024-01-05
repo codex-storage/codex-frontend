@@ -11,7 +11,8 @@ function OfferStorage() {
   const [minPrice, setMinPrice,] = useState("file");
   const [maxCollateral, setMaxCollateral,] = useState("file");
   const [expiry, setExpiry,] = useState("file");
-  
+  const [error, setError] = useState("");
+
 
   function upload(cid: string) {
     fetch(
@@ -33,58 +34,75 @@ function OfferStorage() {
         })
       }
     )
-    // create a popup in the browser to show if the upload was successful
-    .then((response) => {
+      // create a popup in the browser to show if the upload was successful
+      .then((response) => {
         if (response.status === 200) {
-          alert("Upload successful!");
+          alert("Successfully created storage offer!");
+          setError("");
         } else {
-          alert("Upload failed!");
+          response.text().then((text) => {
+            setError(text);
+          }).catch((error) => {
+            console.error("Error reading response body:", error);
+            setError("Failed to read response body");
+          });
         }
       })
+      .catch((error) => {
+        console.error("Error creating storage offer:", error);
+        setError("Failed to create storage offer");
+      });
   }
 
   return (
-    <OfferStorageWrapper>
-      <input
-        type="text"
-        placeholder="CID"
-        onChange={(e) => {
-          setFtdCid(e.target.value);
-        }}
-        value={ftdCid}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="Size"
-        onChange={(e) => setSize(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="Duration"
-        onChange={(e) => setDuration(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="MinPrice"
-        onChange={(e) => setMinPrice(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="MaxCollateral"
-        onChange={(e) => setMaxCollateral(e.target.value)}
-      />
-      <div id="divider"></div>
-      <input
-        type="text"
-        placeholder="Expiry"
-        onChange={(e) => setExpiry(e.target.value)}
-      />
-      <button onClick={() => upload(ftdCid)}>Download</button>
-    </OfferStorageWrapper>
+    <>
+      <OfferStorageWrapper>
+        <input
+          type="text"
+          placeholder="CID"
+          onChange={(e) => {
+            setFtdCid(e.target.value);
+          }}
+          value={ftdCid}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Size"
+          onChange={(e) => setSize(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Duration"
+          onChange={(e) => setDuration(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="MinPrice"
+          onChange={(e) => setMinPrice(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="MaxCollateral"
+          onChange={(e) => setMaxCollateral(e.target.value)}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Expiry"
+          onChange={(e) => setExpiry(e.target.value)}
+        />
+        <button onClick={() => upload(ftdCid)}>Create</button>
+      </OfferStorageWrapper>
+      {error && (
+        <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
+          {error}
+        </p>
+      )}
+    </>
   );
 }
 
