@@ -31,6 +31,12 @@ function NodeInfoItemComponent(props: {
             {props.data.spr}
           </p>
         </div>
+        <div id="info-row">
+          <p>
+            <span>Announce Adresses: </span>
+            {props.data.announceAddresses.join(", ")}
+          </p>
+        </div>
         <div>
           <h3>Local Node</h3>
           <div id="info-row">
@@ -53,8 +59,8 @@ function NodeInfoItemComponent(props: {
               {`${props.data.table.localNode.seen
                 .toString()[0]
                 .toUpperCase()}${props.data.table.localNode.seen
-                .toString()
-                .slice(1)}`}
+                  .toString()
+                  .slice(1)}`}
             </p>
           </div>
         </div>

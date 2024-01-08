@@ -5,6 +5,7 @@ export interface DebugNodeInfoModel {
   spr: string;
   table: Table;
   codex: Codex;
+  announceAddresses: string[];
 }
 
 export interface Codex {
