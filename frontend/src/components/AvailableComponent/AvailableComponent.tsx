@@ -16,13 +16,13 @@ function AvailableComponent(props: { item: AvailabilityModel }) {
         </p>
         <p>
           <span>Size: </span>
-          {props.item.size}
+          {props.item.size} seconds
         </p>
       </div>
       <div>
         <p>
           <span>Duration: </span>
-          {props.item.duration}
+          {props.item.duration} seconds
         </p>
         <p>
           <span>Min Price: </span>

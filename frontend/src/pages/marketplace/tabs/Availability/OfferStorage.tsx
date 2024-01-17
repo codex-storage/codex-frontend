@@ -2,16 +2,28 @@ import { useState } from "react";
 import constants from "../../../../util/Constants";
 import styled from "styled-components";
 import { useDexyStore } from "../../../../store";
+import DurationInputWithFloatingBox from "../../../../components/layout/durationInput/DurationInputWithFloatingBox"
 
 function OfferStorage() {
   const { ftdCid, setFtdCid, nodeInfo } = useDexyStore();
 
-  const [size, setSize,] = useState("file");
-  const [duration, setDuration,] = useState("file");
-  const [minPrice, setMinPrice,] = useState("file");
-  const [maxCollateral, setMaxCollateral,] = useState("file");
-  const [expiry, setExpiry,] = useState("file");
+  const [size, setSize,] = useState("");
+  const [duration, setDuration,] = useState("");
+  const [minPrice, setMinPrice,] = useState("");
+  const [maxCollateral, setMaxCollateral,] = useState("");
   const [error, setError] = useState("");
+
+  const [isBoxOpen, setBoxOpen] = useState(false);
+
+  const toggleBox = () => {
+    setBoxOpen(!isBoxOpen);
+  };
+
+  const handleDurationChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
+    const { days, hours, minutes, seconds } = newDuration;
+    const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
+    setDuration(totalSeconds.toString());
+  };
 
 
   function upload(cid: string) {
@@ -30,7 +42,6 @@ function OfferStorage() {
           duration: duration,
           minPrice: minPrice,
           maxCollateral: maxCollateral,
-          expiry: expiry
         })
       }
     )
@@ -68,15 +79,20 @@ function OfferStorage() {
         <div id="divider"></div>
         <input
           type="text"
-          placeholder="Size"
+          placeholder="Size (seconds)"
           onChange={(e) => setSize(e.target.value)}
         />
         <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="Duration"
-          onChange={(e) => setDuration(e.target.value)}
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Duration"
+            value={duration}
+            onClick={toggleBox}
+            >
+          </input>
+        </div>
+        <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
         <div id="divider"></div>
         <input
           type="text"
@@ -88,12 +104,6 @@ function OfferStorage() {
           type="text"
           placeholder="MaxCollateral"
           onChange={(e) => setMaxCollateral(e.target.value)}
-        />
-        <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="Expiry"
-          onChange={(e) => setExpiry(e.target.value)}
         />
         <button onClick={() => upload(ftdCid)}>Create</button>
       </OfferStorageWrapper>

@@ -2,16 +2,29 @@ import { useState } from "react";
 import constants from "../../../../util/Constants";
 import styled from "styled-components";
 import { useDexyStore } from "../../../../store";
+import DurationInputWithFloatingBox from "../../../../components/layout/durationInput/DurationInputWithFloatingBox"
 
 function CreateTab() {
   const { ftdCid, setFtdCid, nodeInfo } = useDexyStore();
 
-  const [reward, setReward,] = useState("file");
-  const [duration, setDuration,] = useState("file");
-  const [proofProbability, setProofProbability,] = useState("file");
-  const [collateral, setCollateral,] = useState("file");
+  const [reward, setReward,] = useState("");
+  const [duration, setDuration,] = useState("");
+  const [proofProbability, setProofProbability,] = useState("");
+  const [manualProbability, setManualProbability] = useState("");
+  const [collateral, setCollateral,] = useState("");
   const [error, setError] = useState("");
 
+  const [isBoxOpen, setBoxOpen] = useState(false);
+
+  const toggleBox = () => {
+    setBoxOpen(!isBoxOpen);
+  };
+
+  const handleDurationChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
+    const { days, hours, minutes, seconds } = newDuration;
+    const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
+    setDuration(totalSeconds.toString());
+  };
 
   function upload(cid: string) {
     fetch(
@@ -70,17 +83,16 @@ function CreateTab() {
           onChange={(e) => setReward(e.target.value)}
         />
         <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="Duration"
-          onChange={(e) => setDuration(e.target.value)}
-        />
-        <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="ProofProbability"
-          onChange={(e) => setProofProbability(e.target.value)}
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Duration"
+            value={duration}
+            onClick={toggleBox}
+            >
+          </input>
+        </div>
+        <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
         <div id="divider"></div>
         <input
           type="text"
@@ -158,3 +170,29 @@ const CreateTabWrapper = styled.div`
     width: 90%;
   }
 `;
+
+const CustomDropdown = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 150px;
+  `;
+
+const DropdownContent = styled.div`
+  display: block;
+  position: absolute;
+  background-color: #555555;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 4;
+  right: 0;
+  `;
+
+const DropdownOption = styled.div`
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f1f1;
+  }
+  `;
