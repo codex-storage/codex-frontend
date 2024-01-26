@@ -83,15 +83,13 @@ function OfferStorage() {
           onChange={(e) => setSize(e.target.value)}
         />
         <div id="divider"></div>
-        <div>
-          <input
-            type="text"
-            placeholder="Duration"
-            value={duration}
-            onClick={toggleBox}
-            >
-          </input>
-        </div>
+        <input
+          type="text"
+          placeholder="Duration"
+          value={duration}
+          onClick={toggleBox}
+        >
+        </input>
         <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
         <div id="divider"></div>
         <input

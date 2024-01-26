@@ -3,6 +3,10 @@ import constants from "../../../../util/Constants";
 import styled from "styled-components";
 import { useDexyStore } from "../../../../store";
 import DurationInputWithFloatingBox from "../../../../components/layout/durationInput/DurationInputWithFloatingBox"
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
+import exp from "constants";
 
 function CreateTab() {
   const { ftdCid, setFtdCid, nodeInfo } = useDexyStore();
@@ -10,7 +14,9 @@ function CreateTab() {
   const [reward, setReward,] = useState("");
   const [duration, setDuration,] = useState("");
   const [proofProbability, setProofProbability,] = useState("");
-  const [manualProbability, setManualProbability] = useState("");
+  const [expiry, setExpiry] = useState("")
+  const [nodes, setNodes] = useState("")
+  const [tolerance, setTolerance] = useState("")
   const [collateral, setCollateral,] = useState("");
   const [error, setError] = useState("");
 
@@ -18,6 +24,12 @@ function CreateTab() {
 
   const toggleBox = () => {
     setBoxOpen(!isBoxOpen);
+  };
+
+  const handleDateChange = (selectedDate: any) => {
+    const timestamp = moment(selectedDate).unix();
+    setExpiry(timestamp.toString()); // Format the date as needed
+    
   };
 
   const handleDurationChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
@@ -38,9 +50,12 @@ function CreateTab() {
           }) ||
           {},
         body: JSON.stringify({
-          reward: reward,
           duration: duration,
           proofProbability: proofProbability,
+          reward: reward,
+          expiry: expiry,
+          nodes: nodes,
+          tolerance: tolerance,
           collateral: collateral
         })
       }
@@ -79,27 +94,71 @@ function CreateTab() {
         <div id="divider"></div>
         <input
           type="text"
-          placeholder="Reward"
-          onChange={(e) => setReward(e.target.value)}
+          placeholder="Duration"
+          value={duration}
+          onClick={toggleBox}
+        >
+        </input>
+        <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Proof Probability"
+          onChange={(e) => {
+            setProofProbability(e.target.value);
+          }}
+          value={proofProbability}
         />
         <div id="divider"></div>
-        <div>
-          <input
-            type="text"
-            placeholder="Duration"
-            value={duration}
-            onClick={toggleBox}
-            >
-          </input>
-        </div>
-        <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
+        <input
+          type="text"
+          placeholder="Reward"
+          onChange={(e) => setReward(e.target.value)}
+          value={reward}
+        />
+        <div id="divider"></div>
+        {/* <input
+          type="text"
+          placeholder="Expiry"
+          onClick={toggleCalendar}
+          value={expiry}
+        /> */}
+        <DatePicker
+          selected={expiry ? moment.unix(parseInt(expiry)).toDate() : null}
+          onChange={handleDateChange}
+          minDate={new Date()} // Allow only future dates
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          timeCaption="Time"
+          dateFormat="MMMM Do YYYY, h:mm:ss a"
+          placeholderText="Select Expiry Date"
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Nodes"
+          onChange={(e) => {
+            setNodes(e.target.value);
+          }}
+          value={nodes}
+        />
+        <div id="divider"></div>
+        <input
+          type="text"
+          placeholder="Tolerance"
+          onChange={(e) => {
+            setTolerance(e.target.value);
+          }}
+          value={tolerance}
+        />
         <div id="divider"></div>
         <input
           type="text"
           placeholder="collateral"
           onChange={(e) => setCollateral(e.target.value)}
         />
-        <button onClick={() => upload(ftdCid)}>Download</button>
+        <button onClick={() => upload(ftdCid)}>Create</button>
       </CreateTabWrapper>
       {error && (
         <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
