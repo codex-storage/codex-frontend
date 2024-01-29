@@ -8,4 +8,4 @@ services:
     ports:
       - "3000:80"
     environment:
-      - codex_url=${codex_url:-http://kubernetes.docker.internal:30001}
+      - codex_url=${codex_url:-http://kubernetes.docker.internal:30003}
