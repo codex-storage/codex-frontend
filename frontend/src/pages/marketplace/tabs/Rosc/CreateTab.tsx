@@ -36,7 +36,6 @@ function CreateTab() {
     const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
     const timestamp = moment().unix() + totalSeconds;
     setExpiry(timestamp.toString());
-
   };
 
   const handleDurationChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
@@ -46,7 +45,6 @@ function CreateTab() {
     if (totalSeconds >= 60 && totalSeconds <= 86400) {
       setDuration(totalSeconds.toString());
     }
-    
   };
 
   function upload(cid: string) {

@@ -22,7 +22,9 @@ function OfferStorage() {
   const handleDurationChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
     const { days, hours, minutes, seconds } = newDuration;
     const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
-    setDuration(totalSeconds.toString());
+    if (totalSeconds > 0) {
+      setDuration(totalSeconds.toString());
+    }
   };
 
 
@@ -67,43 +69,62 @@ function OfferStorage() {
 
   return (
     <>
+      <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
       <OfferStorageWrapper>
-        <input
-          type="text"
-          placeholder="CID"
-          onChange={(e) => {
-            setFtdCid(e.target.value);
-          }}
-          value={ftdCid}
-        />
-        <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="Size (seconds)"
-          onChange={(e) => setSize(e.target.value)}
-        />
-        <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="Duration"
-          value={duration}
-          onClick={toggleBox}
-        >
-        </input>
-        <DurationInputWithFloatingBox isOpen={isBoxOpen} onClose={toggleBox} onDurationChange={handleDurationChange} />
-        <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="MinPrice"
-          onChange={(e) => setMinPrice(e.target.value)}
-        />
-        <div id="divider"></div>
-        <input
-          type="text"
-          placeholder="MaxCollateral"
-          onChange={(e) => setMaxCollateral(e.target.value)}
-        />
-        <button onClick={() => upload(ftdCid)}>Create</button>
+        <div className="row">
+          <div className="field">
+            <label>CID</label>
+            <input
+              type="text"
+              placeholder="CID"
+              onChange={(e) => {
+                setFtdCid(e.target.value);
+              }}
+              value={ftdCid}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="field">
+            <label>Size</label>
+            <input
+              type="text"
+              placeholder="Size (seconds)"
+              onChange={(e) => setSize(e.target.value)}
+            />
+          </div>
+          <div className="field">
+            <label>Duration</label>
+            <input
+              type="text"
+              placeholder="Duration"
+              value={duration}
+              onClick={toggleBox}
+            >
+            </input>
+          </div>
+        </div>
+        <div className="row">
+          <div className="field">
+            <label>Minimum Price</label>
+            <input
+              type="text"
+              placeholder="MinPrice"
+              onChange={(e) => setMinPrice(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="field">
+            <label>Maximum Collateral</label>
+            <input
+              type="text"
+              placeholder="MaxCollateral"
+              onChange={(e) => setMaxCollateral(e.target.value)}
+            />
+          </div>
+          <button onClick={() => upload(ftdCid)}>Create</button>
+        </div>
       </OfferStorageWrapper>
       {error && (
         <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
@@ -117,60 +138,105 @@ function OfferStorage() {
 export default OfferStorage;
 
 const OfferStorageWrapper = styled.div`
+flex: 1;
+display: flex;
+flex-direction: column;
+
+main {
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 75%;
+  height: 100%;
+  width: 100%;
+  padding: 16px 0px;
+}
 
-  input {
-    flex: 3;
-    height: 60px;
-    padding: 10px 20px;
-    border: none;
-    background-color: ${constants.surfaceColor};
-    color: ${constants.onSurfaceColor};
-    width: 100%;
-  }
+h1 {
+  color: ${constants.onSurfaceColor};
+  font-size: 24px;
+  margin: 16px;
+}
 
-  input:focus {
-    outline: none;
-    border: 2px solid ${constants.primaryColor};
-  }
+.inputs {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #141414;
+  border-radius: 8px;
+  width: 50%;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  input:nth-child(1) {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
+.field {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 0px 4px;
+}
 
-  #divider {
-    width: 2.5px;
-    height: 60px;
-    background-color: #555555;
-  }
+h4 {
+  color: ${constants.onSurfaceColor};
+  font-size: 20px;
+  margin: 16px;
+}
 
-  button {
-    flex: 2;
-    height: 60px;
-    border: none;
-    background-color: ${constants.primaryColor};
-    color: ${constants.onPrimaryColor};
-    font-size: 1rem;
-    cursor: pointer;
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    width: 100%;
-  }
+input {
+  height: 60px;
+  padding: 10px 20px;
+  border: none;
+  background-color: ${constants.surfaceColor};
+  color: ${constants.onSurfaceColor};
+  width: 100%;
+  border-radius: 8px;
+  margin: 16px 0px;
+  border: 2px dashed #9e9e9e;
+  border-radius: 8px;
+  text-align: center;
+}
 
-  @media (max-width: 1180px) {
+input:focus {
+  outline: none;
+  border: 2px solid ${constants.primaryColor};
+}
+
+button {
+  height: 50%;
+  width: 50%;
+  margin-top: 20px;
+  border: none;
+  background-color: ${constants.primaryColor};
+  color: ${constants.onPrimaryColor};
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+button span {
+  font-weight: bold;
+}
+
+@media (max-width: 1180px) {
+  .inputs {
     width: 80%;
   }
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .inputs {
     width: 85%;
   }
+}
 
-  @media (max-width: 450px) {
+@media (max-width: 450px) {
+  .inputs {
     width: 90%;
   }
+}
 `;
