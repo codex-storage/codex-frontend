@@ -35,7 +35,7 @@ export default function App() {
         </Routes>
 
         <header id="header-mobile">
-          <h1>Dexy</h1>
+          <h1>Codex Storage</h1>
         </header>
       </AppWrapper>
     </Router>

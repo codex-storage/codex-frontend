@@ -12,7 +12,7 @@ import {
 function NavigationRail() {
   return (
     <NavigationRailWrapper>
-      <h1>Dexy</h1>
+      <h1>Codex</h1>
       <ul>
         <NavigationItem name="Settings" icon={MdOutlineSettings} link="/settings" />
         <NavigationItem name="Marketplace" icon={MdStore} link="/marketplace" />
