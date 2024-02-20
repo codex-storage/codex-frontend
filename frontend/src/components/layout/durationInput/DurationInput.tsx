@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const DurationInputWrapper = styled.div`
@@ -21,13 +21,27 @@ const DurationInput: React.FC<DurationInputProps> = ({ onDurationChange }) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
+  const durationInputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (durationInputRef.current && !durationInputRef.current.contains(event.target as Node)) {
+        onDurationChange({ days, hours, minutes, seconds });
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onDurationChange, days, hours, minutes, seconds]);
 
   const handleDurationChange = () => {
     onDurationChange({ days, hours, minutes, seconds });
   };
 
   return (
-    <DurationInputWrapper>
+    <DurationInputWrapper ref={durationInputRef}>
       <Input
         type="number"
         value={days}
