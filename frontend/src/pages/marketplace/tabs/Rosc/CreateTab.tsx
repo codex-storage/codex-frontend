@@ -30,7 +30,17 @@ function CreateTab() {
   const toggleBoxExpiry = () => {
     setBoxOpenExpiry(!isBoxOpenExpiry);
   };
-
+  const handleExpiryChangeDropdown = (e: any) => {
+    const minutes = e.target.value;
+    console.log(minutes);
+    const newDuration = {
+      days: 0,
+      hours: 0,
+      minutes: minutes,
+      seconds: 0
+    };
+    handleExpiryChange(newDuration);
+  };
   const handleExpiryChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
     const { days, hours, minutes, seconds } = newDuration;
     const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
@@ -41,9 +51,16 @@ function CreateTab() {
   const handleDurationChange = (newDuration: { days: number; hours: number; minutes: number; seconds: number }) => {
     const { days, hours, minutes, seconds } = newDuration;
     const totalSeconds = days * 24 * 60 * 60 + hours * 60 * 60 + minutes * 60 + seconds;
-    
+
     if (totalSeconds >= 60 && totalSeconds <= 86400) {
       setDuration(totalSeconds.toString());
+    }
+  };
+
+  const handleProofProbabilityChange = (e: any) => {
+    const value = e.target.value;
+    if (value === "" || (value >= 0 && value <= 99)) {
+      setProofProbability(value);
     }
   };
 
@@ -89,12 +106,6 @@ function CreateTab() {
       });
   }
 
-  const handleProofProbabilityChange = (e: any) => {
-    const value = e.target.value;
-    if (value === "" || (value >= 0 && value <= 99)) {
-      setProofProbability(value);
-    }
-  };
 
   return (
     <>
@@ -134,6 +145,15 @@ function CreateTab() {
               onClick={toggleBoxExpiry}
             />
           </div>
+          <select
+                value={expiry}
+                onChange={handleExpiryChangeDropdown}
+              >
+                <option value="">Recommended Expiry Time</option>
+                <option value="5">Small datasets</option>
+                <option value="15">Medium Datasets</option>
+                <option value="60">Large Datasets</option>
+              </select>
         </div>
 
         <div className="row">
@@ -181,22 +201,22 @@ function CreateTab() {
           <div className="field">
             <label>Proof Probability</label>
             <div>
-            <select
+              <select
+                value={proofProbability}
+                onChange={handleProofProbabilityChange}
+              >
+                <option value="">Select Proof Probability</option>
+                <option value="1">Low Durability Guarantee</option>
+                <option value="3">Medium Durability Guarantee</option>
+                <option value="6">Strong Durability Guarantee</option>
+              </select>
+            </div>
+            <input
+              type="text"
+              placeholder="Custom Proof Probability"
               value={proofProbability}
               onChange={handleProofProbabilityChange}
-            >
-              <option value="">Select Proof Probability</option>
-              <option value="1">Low Durability Guarantee</option>
-              <option value="3">Medium Durability Guarantee</option>
-              <option value="6">Strong Durability Guarantee</option>
-            </select>
-          </div>
-          <input
-            type="text"
-            placeholder="Custom Proof Probability"
-            value={proofProbability}
-            onChange={handleProofProbabilityChange}
-          />
+            />
           </div>
           <button onClick={() => upload(ftdCid)}>Create</button>
         </div>
@@ -234,6 +254,16 @@ h1 {
 }
 
 .inputs {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #141414;
+  border-radius: 8px;
+  width: 50%;
+}
+
+.select{
   padding: 16px;
   display: flex;
   align-items: center;
@@ -293,6 +323,7 @@ button {
   cursor: pointer;
   border-radius: 8px;
 }
+
 
 button span {
   font-weight: bold;

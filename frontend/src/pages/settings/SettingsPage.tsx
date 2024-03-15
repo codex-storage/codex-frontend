@@ -33,7 +33,7 @@ function SettingsPage() {
     }
     try {
       await fetch(
-        `http://localhost:8080/api/codex/v1/connect/${encodeURIComponent(
+        `/api/codex/v1/connect/${encodeURIComponent(
           params.id
         )}?addrs=${encodeURIComponent(params.address)}`
       )
@@ -58,17 +58,6 @@ function SettingsPage() {
       <main>
         <div className="inputs">
           <h4>Connection Settings</h4>
-          <input
-            type="text"
-            placeholder="Local node base URL (default is http://localhost:8080)"
-            value={nodeInfoInput.nodeBaseUrl}
-            onChange={(e) =>
-              setNodeInfoInput({
-                ...nodeInfoInput,
-                nodeBaseUrl: e.target.value,
-              })
-            }
-          />
           <input
             type="text"
             placeholder="Node to connect to (blank for local node) (e.g. http://example.com:8080))"
